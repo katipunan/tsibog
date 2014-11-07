@@ -43,7 +43,7 @@ module Tsibog
     end
 
     def hours
-      @venue.popular || @venue.hours
+      @venue.hours || @venue.popular
     end
   end
 
@@ -77,8 +77,8 @@ class Tsibog::Application
     end
   end
 
-  def initialize
-    restaurant = Tsibog.food_place random_select.id
+  def initialize id = random_select.id
+    restaurant = Tsibog.food_place id
     print_details restaurant
   end
 end
