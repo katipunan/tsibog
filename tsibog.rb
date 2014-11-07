@@ -21,6 +21,10 @@ module Tsibog
     end
 
     def address
+      @venue.location.address
+    end
+
+    def full_address
       @venue.location.formattedAddress.join(', ')
     end
 
