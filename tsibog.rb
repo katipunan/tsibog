@@ -31,7 +31,11 @@ module Tsibog
     private
 
     def timeframes
-      @venue.popular ? @venue.popular.timeframes : []
+      hours ? hours.timeframes : []
+    end
+
+    def hours
+      @venue.popular || @venue.hours
     end
   end
 
