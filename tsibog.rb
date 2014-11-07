@@ -16,6 +16,10 @@ module Tsibog
       @venue = venue
     end
 
+    def id
+      @venue.id
+    end
+
     def name
       @venue.name
     end
