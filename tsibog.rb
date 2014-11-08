@@ -2,9 +2,10 @@ require 'foursquare2'
 
 module Tsibog
   CLIENT = Foursquare2::Client.new(:client_id => 'LQSHZK4YX3P5DTIUPRET2EDJ53SZPQSSCXG5IZXDMMQHRR0L', :client_secret => '11FO21GAOBGCIS3S5JEJADXMRH2IIVTIW4DIZANVR4LAV0JE', api_version: 20140806)
-
+  FOOD = '4d4b7105d754a06374d81259'
+  
   def self.food_places_near(geodata, top = 20)
-    CLIENT.search_venues(:ll => geodata, :query => 'Food', limit: top).venues
+    CLIENT.search_venues(:ll => geodata, 'categoryId' => FOOD, :limit => top).venues
   end
 
   def self.food_place id
