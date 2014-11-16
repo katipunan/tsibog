@@ -144,7 +144,7 @@ describe Foursquare::Venues do
       end
     end
 
-    it "chains the same class" do
+    it "chains the same sub class" do
       expect(sub_type.search('vegetarian').class).to eq(FoodVenues)
     end
 
