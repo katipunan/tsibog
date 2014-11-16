@@ -17,11 +17,11 @@ module Foursquare
     end
 
     def near(latlng, accuracy_in_meters = nil)
-      chain blank_hash_or(:llAcc, accuracy_in_meters).merge(ll: latlng)
+      chain blank_hash_or('llAcc', accuracy_in_meters).merge(ll: latlng)
     end
 
     def above(meters, accuracy_in_meters = nil) # altitude
-      chain blank_hash_or(:altAcc, accuracy_in_meters).merge(alt: meters)
+      chain blank_hash_or('altAcc', accuracy_in_meters).merge(alt: meters)
     end
 
     def within(meters)
@@ -42,7 +42,7 @@ module Foursquare
 
     include Enumerable
     extend Forwardable
-    
+
     def_delegators :fetch_venues, :each
     def_delegators :to_a, :sample
 

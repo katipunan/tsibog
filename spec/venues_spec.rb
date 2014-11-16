@@ -5,7 +5,7 @@ describe Foursquare::Venues do
 
   let(:mock_client) { double("Object", search_venues: search_response) }
   let(:search_response) { double("Object", venues: fetched_venues) }
-  let(:fetched_venues) { [{id: 1, name: 'jollibee'}, {id: 2, name: 'chowking'}, {id: 3, name: 'mang inasal'}] }
+  let(:fetched_venues) { [{id: 1, name: 'Jollibee'}, {id: 2, name: 'Chowking'}, {id: 3, name: 'Mang inasal'}] }
   let(:food_category) { '4d4b7105d754a06374d81259' }
   let(:latlng) { '14.6371574,121.073077' }
 
@@ -21,7 +21,7 @@ describe Foursquare::Venues do
     expect(subject.categories).to eq([])
   end
 
-  context "method chaining venues" do    
+  context "method chaining" do
     describe "#with_category" do
       before do
         @venues = subject.with_category(food_category)
@@ -42,9 +42,9 @@ describe Foursquare::Venues do
         expect(@venues.options[:ll]).to eq(latlng)
       end
 
-      it "sets #options[:llAcc] to 10 meters" do
+      it "sets #options['llAcc'] to 10 meters" do
         @venues = subject.near(latlng, 10)
-        expect(@venues.options[:llAcc]).to eq(10)
+        expect(@venues.options['llAcc']).to eq(10)
       end
     end
 
@@ -54,9 +54,9 @@ describe Foursquare::Venues do
         expect(@venues.options[:alt]).to eq(100)
       end
 
-      it "sets #options[:altAcc] to 1 meters" do
+      it "sets #options['altAcc'] to 1 meters" do
         @venues = subject.above(100, 1)
-        expect(@venues.options[:altAcc]).to eq(1)
+        expect(@venues.options['altAcc']).to eq(1)
       end
     end
 
@@ -107,9 +107,9 @@ describe Foursquare::Venues do
       expect(mock_client).to receive(:search_venues) do |options|
         expect(options['categoryId']).to eq(food_category)
         expect(options[:ll]).to eq(latlng)
-        expect(options[:llAcc]).to eq(10)
+        expect(options['llAcc']).to eq(10)
         expect(options[:alt]).to eq(100)
-        expect(options[:altAcc]).to eq(1)
+        expect(options['altAcc']).to eq(1)
         expect(options[:limit]).to eq(20)
         expect(options[:query]).to eq('restaurant')
         expect(options[:intent]).to eq('match')
@@ -126,6 +126,6 @@ describe Foursquare::Venues do
       venue = @venues.sample
       expect(venue.nil?).to eq(false)
       expect(fetched_venues.include? venue).to eq(true)
-    end    
+    end
   end
 end
