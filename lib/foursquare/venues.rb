@@ -22,6 +22,10 @@ module Foursquare
       Venues.new @client, radius: meters
     end
 
+    def above(meters) # altitude
+      Venues.new @client, alt: meters
+    end
+
     def top(quantity)
       Venues.new @client, limit: quantity
     end

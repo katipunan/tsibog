@@ -49,6 +49,13 @@ describe Foursquare::Venues do
       end
     end
 
+    describe "#above" do
+      it "sets #options[:alt] to 100 meters" do
+        @venues = subject.within(100)
+        expect(@venues.options[:radius]).to eq(100)
+      end
+    end
+
     describe "#top" do
       it "sets #options[:limit] to 20" do
         @venues = subject.top(20)
@@ -69,7 +76,7 @@ describe Foursquare::Venues do
         expect(@venues.options[:intent]).to eq('checkin')
       end
     end
-    
+
     after do
       expect(@venues.kind_of? Foursquare::Venues).to eq(true)
     end
