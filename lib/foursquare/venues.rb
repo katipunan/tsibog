@@ -13,5 +13,13 @@ module Foursquare
     def with_category(category)
       Venues.new @client, 'categoryId' => (categories << category).join(',')
     end
+
+    def near(latlng)
+      Venues.new @client, ll: latlng
+    end
+
+    def within(meters)
+      Venues.new @client, radius: meters
+    end
   end
 end
