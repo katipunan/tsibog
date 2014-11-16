@@ -11,34 +11,38 @@ module Foursquare
     end
 
     def with_category(category)
-      Venues.new @client, 'categoryId' => (categories << category).join(',')
+      chain 'categoryId' => (categories << category).join(',')
     end
 
     def near(latlng, accuracy_in_meters = nil)
-      Venues.new @client, blank_hash_or(llAcc: accuracy_in_meters).merge(ll: latlng)
+      chain blank_hash_or(llAcc: accuracy_in_meters).merge(ll: latlng)
     end
 
     def above(meters, accuracy_in_meters = nil) # altitude
-      Venues.new @client, blank_hash_or(altAcc: accuracy_in_meters).merge(alt: meters)
+      chain blank_hash_or(altAcc: accuracy_in_meters).merge(alt: meters)
     end
 
     def within(meters)
-      Venues.new @client, radius: meters
+      chain radius: meters
     end
 
     def top(quantity)
-      Venues.new @client, limit: quantity
+      chain limit: quantity
     end
 
     def search(term)
-      Venues.new @client, query: term
+      chain query: term
     end
 
     def for(intent) # checkin, match, or specials.
-      Venues.new @client, intent: intent
+      chain intent: intent
     end
 
     private
+
+    def chain new_option
+      Venues.new @client, new_option
+    end
 
     def blank_hash_or(hash)
       hash.first.nil? ? {} : hash
