@@ -41,12 +41,21 @@ describe Foursquare::Venues do
         expect(@venues.options[:ll]).to eq(latlng)
       end
 
+      it "sets #options[:llAcc] to 10 meters" do
+        @venues = subject.near(latlng, 10)
+        expect(@venues.options[:llAcc]).to eq(10)
+      end
     end
 
     describe "#above" do
       it "sets #options[:alt] to 100 meters" do
         @venues = subject.above(100)
         expect(@venues.options[:alt]).to eq(100)
+      end
+
+      it "sets #options[:altAcc] to 1 meters" do
+        @venues = subject.above(100, 1)
+        expect(@venues.options[:altAcc]).to eq(1)
       end
     end
 

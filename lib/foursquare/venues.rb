@@ -14,16 +14,16 @@ module Foursquare
       Venues.new @client, 'categoryId' => (categories << category).join(',')
     end
 
-    def near(latlng)
-      Venues.new @client, ll: latlng
+    def near(latlng, accuracy_in_meters = nil)
+      Venues.new @client, blank_hash_or(llAcc: accuracy_in_meters).merge(ll: latlng)
+    end
+
+    def above(meters, accuracy_in_meters = nil) # altitude
+      Venues.new @client, blank_hash_or(altAcc: accuracy_in_meters).merge(alt: meters)
     end
 
     def within(meters)
       Venues.new @client, radius: meters
-    end
-
-    def above(meters) # altitude
-      Venues.new @client, alt: meters
     end
 
     def top(quantity)
@@ -36,6 +36,12 @@ module Foursquare
 
     def for(intent) # checkin, match, or specials.
       Venues.new @client, intent: intent
+    end
+
+    private
+
+    def blank_hash_or(hash)
+      hash.first.nil? ? {} : hash
     end
   end
 end
