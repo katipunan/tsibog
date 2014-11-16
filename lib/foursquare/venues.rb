@@ -38,10 +38,10 @@ module Foursquare
       chain intent: checkin_or_match_or_specials
     end
 
-    private
+    protected
 
     def chain new_option
-      Venues.new @client, new_option
+      Venues.new @client, @options.merge(new_option)
     end
 
     def blank_hash_or(hash)
