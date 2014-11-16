@@ -34,8 +34,8 @@ module Foursquare
       chain query: term
     end
 
-    def for(intent) # checkin, match, or specials.
-      chain intent: intent
+    def for(checkin_or_match_or_specials)
+      chain intent: checkin_or_match_or_specials
     end
 
     private
