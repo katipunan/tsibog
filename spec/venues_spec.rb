@@ -133,10 +133,17 @@ describe Foursquare::Venues do
     subject(:sub_type) { FoodVenues.new(:mock_client) }
 
     class FoodVenues < Foursquare::Venues
+      def default_options
+        {'categoryId' => 'food'}
+      end
     end
 
-    it "chain the same class" do
+    it "chains the same class" do
       expect(sub_type.search('vegetarian').class).to eq(FoodVenues)
+    end
+
+    it "defines #default_options" do
+      expect(sub_type.options).to eq sub_type.default_options
     end
   end
 end

@@ -4,8 +4,12 @@ module Foursquare
   class Venues
     attr_reader :client, :options
 
-    def initialize(client, options = {})
+    def initialize(client, options = default_options)
       @client, @options = client, options
+    end
+
+    def default_options
+      {}
     end
 
     def categories
