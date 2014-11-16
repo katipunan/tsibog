@@ -121,5 +121,11 @@ describe Foursquare::Venues do
     it "fetches venues" do
       expect(@venues.to_a).to eq(fetched_venues)
     end
+
+    it 'random selects venue' do
+      venue = @venues.sample
+      expect(venue.nil?).to eq(false)
+      expect(fetched_venues.include? venue).to eq(true)
+    end    
   end
 end

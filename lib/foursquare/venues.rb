@@ -1,3 +1,5 @@
+require 'forwardable'
+
 module Foursquare
   class Venues
     attr_reader :client, :options
@@ -43,6 +45,9 @@ module Foursquare
     def each &block
       fetch_venues.each &block
     end
+
+    extend Forwardable
+    def_delegators :to_a, :sample
 
     protected
 
