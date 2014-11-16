@@ -56,6 +56,20 @@ describe Foursquare::Venues do
       end
     end
 
+    describe "#search" do
+      it "sets #options[:query] to coffee" do
+        @venues = subject.search('coffee')
+        expect(@venues.options[:query]).to eq('coffee')
+      end
+    end
+
+    describe "#for" do
+      it "sets #options[:intent] to checkin" do
+        @venues = subject.for('checkin')
+        expect(@venues.options[:intent]).to eq('checkin')
+      end
+    end
+    
     after do
       expect(@venues.kind_of? Foursquare::Venues).to eq(true)
     end

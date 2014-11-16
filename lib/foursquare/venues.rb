@@ -24,6 +24,14 @@ module Foursquare
 
     def top(quantity)
       Venues.new @client, limit: quantity
-    end    
+    end
+
+    def search(term)
+      Venues.new @client, query: term
+    end
+
+    def for(intent) # checkin, match, or specials.
+      Venues.new @client, intent: intent
+    end
   end
 end
