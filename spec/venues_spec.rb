@@ -49,6 +49,13 @@ describe Foursquare::Venues do
       end
     end
 
+    describe "#top" do
+      it "sets #options[:limit] to 20" do
+        @venues = subject.top(20)
+        expect(@venues.options[:limit]).to eq(20)
+      end
+    end
+
     after do
       expect(@venues.kind_of? Foursquare::Venues).to eq(true)
     end

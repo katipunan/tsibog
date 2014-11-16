@@ -21,5 +21,9 @@ module Foursquare
     def within(meters)
       Venues.new @client, radius: meters
     end
+
+    def top(quantity)
+      Venues.new @client, limit: quantity
+    end    
   end
 end
