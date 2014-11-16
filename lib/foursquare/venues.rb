@@ -54,7 +54,7 @@ module Foursquare
     end
 
     def chain new_option
-      Venues.new @client, @options.merge(new_option)
+      self.class.new @client, @options.merge(new_option)
     end
 
     def blank_hash_or(key, value)

@@ -128,4 +128,15 @@ describe Foursquare::Venues do
       expect(fetched_venues.include? venue).to eq(true)
     end
   end
+
+  context "Sub Class" do
+    subject(:sub_type) { FoodVenues.new(:mock_client) }
+
+    class FoodVenues < Foursquare::Venues
+    end
+
+    it "chain the same class" do
+      expect(sub_type.search('vegetarian').class).to eq(FoodVenues)
+    end
+  end
 end
