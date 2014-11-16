@@ -38,7 +38,18 @@ module Foursquare
       chain intent: checkin_or_match_or_specials
     end
 
+    include Enumerable
+
+    def each &block
+      fetch_venues.each &block
+    end
+
     protected
+
+    def fetch_venues
+      result = @client.search_venues(@options)
+      result = result.respond_to?(:venues) ? result.venues : []
+    end
 
     def chain new_option
       Venues.new @client, @options.merge(new_option)

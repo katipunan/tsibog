@@ -3,7 +3,11 @@ require 'foursquare/venues'
 describe Foursquare::Venues do
   subject { Foursquare::Venues.new(mock_client) }
 
-  let(:mock_client) { Object.new }
+  let(:mock_client) { double("Object", search_venues: search_response) }
+  let(:search_response) { double("Object", venues: fetched_venues) }
+  let(:fetched_venues) { [{id: 1, name: 'jollibee'}, {id: 2, name: 'chowking'}, {id: 3, name: 'mang inasal'}] }
+  let(:food_category) { '4d4b7105d754a06374d81259' }
+  let(:latlng) { '14.6371574,121.073077' }
 
   it "has a client" do
     expect(subject.client.nil?).to eq(false)
@@ -17,13 +21,10 @@ describe Foursquare::Venues do
     expect(subject.categories).to eq([])
   end
 
-  context "method chaining venues" do
-    let(:food_category) { '4d4b7105d754a06374d81259' }
-    let(:latlng) { '14.6371574,121.073077' }
-
+  context "method chaining venues" do    
     describe "#with_category" do
       before do
-      	@venues = subject.with_category(food_category)
+        @venues = subject.with_category(food_category)
       end
 
       it "sets #options['categoryId'] to food_category" do
@@ -94,6 +95,31 @@ describe Foursquare::Venues do
 
     after do
       expect(@venues.kind_of? Foursquare::Venues).to eq(true)
+    end
+  end
+
+  context "enumerate venues" do
+    before do
+      @venues = subject.with_category(food_category).near(latlng, 10).above(100, 1).top(20).search('restaurant').for('match')
+    end
+
+    it "calls client#search_venues" do
+      expect(mock_client).to receive(:search_venues) do |options|
+        expect(options['categoryId']).to eq(food_category)
+        expect(options[:ll]).to eq(latlng)
+        expect(options[:llAcc]).to eq(10)
+        expect(options[:alt]).to eq(100)
+        expect(options[:altAcc]).to eq(1)
+        expect(options[:limit]).to eq(20)
+        expect(options[:query]).to eq('restaurant')
+        expect(options[:intent]).to eq('match')
+      end
+      
+      expect(@venues.to_a).to eq([])
+    end
+
+    it "fetches venues" do
+      expect(@venues.to_a).to eq(fetched_venues)
     end
   end
 end
