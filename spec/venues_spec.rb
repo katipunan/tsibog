@@ -1,4 +1,4 @@
-require 'foursquare/venues'
+require 'foursquare3/venues'
 
 describe Foursquare3::Venues do
   subject { Foursquare3::Venues.new(mock_client) }
