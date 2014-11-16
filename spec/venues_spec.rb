@@ -21,7 +21,7 @@ describe Foursquare::Venues do
     expect(subject.categories).to eq([])
   end
 
-  context "method chaining" do
+  context "Method chaining" do
     describe "#with_category" do
       before do
         @venues = subject.with_category(food_category)
@@ -98,7 +98,7 @@ describe Foursquare::Venues do
     end
   end
 
-  context "enumerate venues" do
+  context "Enumerate venues" do
     before do
       @venues = subject.with_category(food_category).near(latlng, 10).above(100, 1).top(20).search('restaurant').for('match')
     end
@@ -127,10 +127,16 @@ describe Foursquare::Venues do
       expect(venue.nil?).to eq(false)
       expect(fetched_venues.include? venue).to eq(true)
     end
+
+    it 'count venues' do
+      expect(@venues.count).to eq(fetched_venues.count)
+      expect(@venues.size).to eq(fetched_venues.size)
+      expect(@venues.length).to eq(fetched_venues.length)
+    end
   end
 
   context "Sub Class" do
-    subject(:sub_type) { FoodVenues.new(:mock_client) }
+    subject(:sub_type) { FoodVenues.new(mock_client) }
 
     class FoodVenues < Foursquare::Venues
       def default_options

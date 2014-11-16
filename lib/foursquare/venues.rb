@@ -48,7 +48,7 @@ module Foursquare
     extend Forwardable
 
     def_delegators :fetch_venues, :each
-    def_delegators :to_a, :sample
+    def_delegators :to_a, :sample, :length, :size
 
     protected
 
