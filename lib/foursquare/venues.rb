@@ -41,12 +41,9 @@ module Foursquare
     end
 
     include Enumerable
-
-    def each &block
-      fetch_venues.each &block
-    end
-
     extend Forwardable
+    
+    def_delegators :fetch_venues, :each
     def_delegators :to_a, :sample
 
     protected
