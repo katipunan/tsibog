@@ -89,8 +89,8 @@ describe Foursquare::Venues do
     end
 
     it "retains options" do
-      @venues = subject.with_category(food_category).near(latlng, 10).above(100, 1).top(20).search('coffee').for('specials')
-      expect(@venues.options).to eq({'categoryId' => food_category, :ll => latlng, :llAcc => 10, :alt => 100, :altAcc => 1, :limit => 20, :query => 'coffee', :intent => 'specials'})
+      @venues = subject.with_category(food_category).near(latlng).above(100).top(20).search('coffee').for('specials')
+      expect(@venues.options).to eq({'categoryId' => food_category, :ll => latlng, :alt => 100, :limit => 20, :query => 'coffee', :intent => 'specials'})
     end
 
     after do
