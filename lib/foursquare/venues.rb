@@ -1,6 +1,6 @@
 require 'forwardable'
 
-module Foursquare
+module Foursquare3
   class Venues
     attr_reader :client, :options
 
@@ -57,7 +57,7 @@ module Foursquare
       result = result.respond_to?(:venues) ? result.venues : []
     end
 
-    def chain new_option
+    def chain(new_option)
       self.class.new @client, @options.merge(new_option)
     end
 

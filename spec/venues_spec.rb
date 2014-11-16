@@ -1,7 +1,7 @@
 require 'foursquare/venues'
 
-describe Foursquare::Venues do
-  subject { Foursquare::Venues.new(mock_client) }
+describe Foursquare3::Venues do
+  subject { Foursquare3::Venues.new(mock_client) }
 
   let(:mock_client) { double("Object", search_venues: search_response) }
   let(:search_response) { double("Object", venues: fetched_venues) }
@@ -94,7 +94,7 @@ describe Foursquare::Venues do
     end
 
     after do
-      expect(@venues.kind_of? Foursquare::Venues).to eq(true)
+      expect(@venues.kind_of? Foursquare3::Venues).to eq(true)
     end
   end
 
@@ -138,7 +138,7 @@ describe Foursquare::Venues do
   context "Sub Class" do
     subject(:sub_type) { FoodVenues.new(mock_client) }
 
-    class FoodVenues < Foursquare::Venues
+    class FoodVenues < Foursquare3::Venues
       def default_options
         {'categoryId' => 'food'}
       end
