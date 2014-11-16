@@ -21,7 +21,7 @@ describe Foursquare::Venues do
     expect(subject.categories).to eq([])
   end
 
-  context "Method chaining" do
+  context "Chain methods" do
     describe "#with_category" do
       before do
         @venues = subject.with_category(food_category)
