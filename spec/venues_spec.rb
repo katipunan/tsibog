@@ -8,6 +8,9 @@ describe Foursquare::Venues do
   it "has a client" do
   	expect(subject.client.nil?).to eq(false)
   end
-  it "has options"
+
+  it "has options" do
+  	expect(subject.options).to eq({})
+  end
   it "has categories"
 end
