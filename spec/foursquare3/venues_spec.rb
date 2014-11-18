@@ -130,22 +130,4 @@ describe Foursquare3::Venues do
       expect(@venues.length).to eq(fetched_venues.length)
     end
   end
-
-  context "Sub Class" do
-    subject(:sub_type) { FoodVenues.new(request) }
-
-    class FoodVenues < Foursquare3::Venues
-      def default_options
-        {'categoryId' => 'food'}
-      end
-    end
-
-    it "chains the same sub class" do
-      expect(sub_type.search('vegetarian').class).to eq(FoodVenues)
-    end
-
-    it "defines #default_options" do
-      expect(sub_type.options).to eq sub_type.default_options
-    end
-  end
 end

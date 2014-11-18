@@ -2,19 +2,16 @@ require 'forwardable'
 
 module Foursquare3
   class Venues
-    attr_reader :options
-
     def initialize(request)
       @request = request
-      @options = default_options
     end
 
-    def default_options
-      {}
+    def options
+      @options ||= {}
     end
 
     def categories
-      (@options['categoryId'] || '').split(',')
+      (options['categoryId'] || '').split(',')
     end
 
     def with_category(category)
@@ -54,7 +51,7 @@ module Foursquare3
     protected
 
     def request_venues
-      @request[@options]['venues']
+      @request[options]['venues']
     end
 
     def chain(new_option)
