@@ -101,8 +101,8 @@ describe Foursquare3::Venues do
     context "with request" do
       subject { request }
 
-      it "receive options" do
-        receive(:[]) do |options|
+      it "receive venues#options"do
+        expect(subject).to receive(:[]) do |options|
           expect(options['categoryId']).to eq(food_category)
           expect(options[:ll]).to eq(latlng)
           expect(options['llAcc']).to eq(10)
@@ -111,11 +111,12 @@ describe Foursquare3::Venues do
           expect(options[:limit]).to eq(20)
           expect(options[:query]).to eq('restaurant')
           expect(options[:intent]).to eq('match')
+          { 'venues' => [] }
         end
       end
 
       after do
-        expect(@venues.to_a).to eq(fetched_venues)
+        expect(@venues.to_a).to eq([])
       end
     end
     
