@@ -2,10 +2,11 @@ require 'forwardable'
 
 module Foursquare3
   class Venues
-    attr_reader :client, :options
+    attr_reader :options
 
-    def initialize(client, options = default_options)
-      @client, @options = client, options
+    def initialize(request)
+      @request = request
+      @options = default_options
     end
 
     def default_options
@@ -47,14 +48,13 @@ module Foursquare3
     include Enumerable
     extend Forwardable
 
-    def_delegators :fetch_venues, :each
+    def_delegators :request_venues, :each
     def_delegators :to_a, :sample, :length, :size
 
     protected
 
-    def fetch_venues
-      result = @client.search_venues(@options)
-      result = result.respond_to?(:venues) ? result.venues : []
+    def request_venues
+      @request[@options]['venues']
     end
 
     def chain(new_option)

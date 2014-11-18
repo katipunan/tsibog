@@ -1,17 +1,12 @@
 require 'foursquare3/venues'
 
 describe Foursquare3::Venues do
-  subject { Foursquare3::Venues.new(mock_client) }
+  subject { Foursquare3::Venues.new(request) }
 
-  let(:mock_client) { double("Object", search_venues: search_response) }
-  let(:search_response) { double("Object", venues: fetched_venues) }
+  let(:request) { Hash.new Hash['venues', fetched_venues] }
   let(:fetched_venues) { [{id: 1, name: 'Jollibee'}, {id: 2, name: 'Chowking'}, {id: 3, name: 'Mang inasal'}] }
   let(:food_category) { '4d4b7105d754a06374d81259' }
   let(:latlng) { '14.6371574,121.073077' }
-
-  it "has a client" do
-    expect(subject.client.nil?).to eq(false)
-  end
 
   it "has options" do
     expect(subject.options).to eq({})
@@ -103,8 +98,8 @@ describe Foursquare3::Venues do
       @venues = subject.with_category(food_category).near(latlng, 10).above(100, 1).top(20).search('restaurant').for('match')
     end
 
-    it "calls client#search_venues" do
-      expect(mock_client).to receive(:search_venues) do |options|
+    it "passes options to request" do
+      expect(request).to receive(:[]) do |options|
         expect(options['categoryId']).to eq(food_category)
         expect(options[:ll]).to eq(latlng)
         expect(options['llAcc']).to eq(10)
@@ -113,6 +108,7 @@ describe Foursquare3::Venues do
         expect(options[:limit]).to eq(20)
         expect(options[:query]).to eq('restaurant')
         expect(options[:intent]).to eq('match')
+        { 'venues' => [] }
       end
       
       expect(@venues.to_a).to eq([])
@@ -136,7 +132,7 @@ describe Foursquare3::Venues do
   end
 
   context "Sub Class" do
-    subject(:sub_type) { FoodVenues.new(mock_client) }
+    subject(:sub_type) { FoodVenues.new(request) }
 
     class FoodVenues < Foursquare3::Venues
       def default_options
