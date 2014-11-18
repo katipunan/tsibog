@@ -58,7 +58,8 @@ module Foursquare3
     end
 
     def chain(new_option)
-      self.class.new @client, @options.merge(new_option)
+      (duplicate = dup).options.merge! new_option
+      duplicate
     end
 
     def blank_hash_or(key, value)
