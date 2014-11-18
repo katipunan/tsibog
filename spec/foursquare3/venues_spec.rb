@@ -1,7 +1,7 @@
 require 'foursquare3/venues'
 
 describe Foursquare3::Venues do
-  subject { Foursquare3::Venues.new(request) }
+  subject(:venues) { Foursquare3::Venues.new(request) }
 
   let(:request) { Hash.new Hash['venues', fetched_venues] }
   let(:fetched_venues) { [{id: 1, name: 'Jollibee'}, {id: 2, name: 'Chowking'}, {id: 3, name: 'Mang inasal'}] }
@@ -16,18 +16,18 @@ describe Foursquare3::Venues do
     expect(subject.categories).to eq([])
   end
 
-  context "Chain methods" do
+  context "chain methods" do
     describe "#with_category" do
       before do
         @venues = subject.with_category(food_category)
       end
 
-      it "sets #options['categoryId'] to food_category" do
-        expect(@venues.options['categoryId']).to eq(food_category)
-      end
-
       it "#categories include food_category" do
         expect(@venues.categories.include? food_category).to eq(true)
+      end
+
+      it "sets #options['categoryId'] to food_category" do
+        expect(@venues.options['categoryId']).to eq(food_category)
       end
     end
 
@@ -93,31 +93,32 @@ describe Foursquare3::Venues do
     end
   end
 
-  context "Enumerate venues" do
+  describe "Enumerate venues" do
     before do
-      @venues = subject.with_category(food_category).near(latlng, 10).above(100, 1).top(20).search('restaurant').for('match')
+      @venues = venues.with_category(food_category).near(latlng, 10).above(100, 1).top(20).search('restaurant').for('match')
     end
 
-    it "passes options to request" do
-      expect(request).to receive(:[]) do |options|
-        expect(options['categoryId']).to eq(food_category)
-        expect(options[:ll]).to eq(latlng)
-        expect(options['llAcc']).to eq(10)
-        expect(options[:alt]).to eq(100)
-        expect(options['altAcc']).to eq(1)
-        expect(options[:limit]).to eq(20)
-        expect(options[:query]).to eq('restaurant')
-        expect(options[:intent]).to eq('match')
-        { 'venues' => [] }
+    context "with request" do
+      subject { request }
+
+      it "receive options" do
+        receive(:[]) do |options|
+          expect(options['categoryId']).to eq(food_category)
+          expect(options[:ll]).to eq(latlng)
+          expect(options['llAcc']).to eq(10)
+          expect(options[:alt]).to eq(100)
+          expect(options['altAcc']).to eq(1)
+          expect(options[:limit]).to eq(20)
+          expect(options[:query]).to eq('restaurant')
+          expect(options[:intent]).to eq('match')
+        end
       end
-      
-      expect(@venues.to_a).to eq([])
-    end
 
-    it "fetches venues" do
-      expect(@venues.to_a).to eq(fetched_venues)
+      after do
+        expect(@venues.to_a).to eq(fetched_venues)
+      end
     end
-
+    
     it 'random selects venue' do
       venue = @venues.sample
       expect(venue.nil?).to eq(false)
