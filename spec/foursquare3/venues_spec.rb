@@ -89,7 +89,7 @@ describe Foursquare3::Venues do
     end
 
     after do
-      expect(@venues.kind_of? Foursquare3::Venues).to eq(true)
+      expect(@venues.class).to eq(subject.class)
     end
   end
 
