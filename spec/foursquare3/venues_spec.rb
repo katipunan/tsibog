@@ -16,7 +16,7 @@ describe Foursquare3::Venues do
     expect(subject.categories).to eq([])
   end
 
-  context "instance methods" do
+  context "options setters" do
     describe "#with_category" do
       before do
         @venues = subject.with_category(food_category)
@@ -32,12 +32,12 @@ describe Foursquare3::Venues do
     end
 
     describe "#near" do
-      it "sets location without accuracy" do
+      it "sets geolocation without accuracy" do
         @venues = subject.near(latlng)
         expect(@venues.options).to eq(ll: latlng)
       end
 
-      it "sets location with accuracy" do
+      it "sets geolocation with accuracy" do
         @venues = subject.near(latlng, 10)
         expect(@venues.options).to eq(:ll => latlng, 'llAcc' => 10)
       end
@@ -83,7 +83,7 @@ describe Foursquare3::Venues do
       end
     end
 
-    context "chain methods" do
+    context "chain setter methods" do
       before do
         @venues = subject.with_category(food_category).near(latlng).above(100).top(20).search('coffee').for('specials')
       end
