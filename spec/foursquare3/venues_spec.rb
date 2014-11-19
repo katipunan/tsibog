@@ -1,7 +1,7 @@
 require 'foursquare3/venues'
 
 describe Foursquare3::Venues do
-  subject(:venues) { Foursquare3::Venues.new(request) }
+  subject { Foursquare3::Venues.new(request) }
 
   let(:request) { Hash.new('venues' => fetched_venues) }
   let(:fetched_venues) { [{id: 1, name: 'Jollibee'}, {id: 2, name: 'Chowking'}, {id: 3, name: 'Mang inasal'}] }
@@ -16,76 +16,81 @@ describe Foursquare3::Venues do
     expect(subject.categories).to eq([])
   end
 
-  context "chain methods" do
+  context "instance methods" do
     describe "#with_category" do
       before do
         @venues = subject.with_category(food_category)
       end
 
-      it "#categories include food_category" do
+      it "sets #categories to include category" do
         expect(@venues.categories.include? food_category).to eq(true)
       end
 
-      it "sets #options['categoryId'] to food_category" do
-        expect(@venues.options['categoryId']).to eq(food_category)
+      it "sets category id" do
+        expect(@venues.options).to eq('categoryId' => food_category)
       end
     end
 
     describe "#near" do
-      it "sets #options[:ll] to latlng" do
+      it "sets location without accuracy" do
         @venues = subject.near(latlng)
-        expect(@venues.options[:ll]).to eq(latlng)
+        expect(@venues.options).to eq(ll: latlng)
       end
 
-      it "sets #options['llAcc'] to 10 meters" do
+      it "sets location with accuracy" do
         @venues = subject.near(latlng, 10)
-        expect(@venues.options['llAcc']).to eq(10)
+        expect(@venues.options).to eq(:ll => latlng, 'llAcc' => 10)
       end
     end
 
     describe "#above" do
-      it "sets #options[:alt] to 100 meters" do
+      it "sets altitude without accuracy" do
         @venues = subject.above(100)
-        expect(@venues.options[:alt]).to eq(100)
+        expect(@venues.options).to eq(alt: 100)
       end
 
-      it "sets #options['altAcc'] to 1 meters" do
+      it "sets altitude with accuracy" do
         @venues = subject.above(100, 1)
-        expect(@venues.options['altAcc']).to eq(1)
+        expect(@venues.options).to eq(alt: 100, 'altAcc' => 1)
       end
     end
 
     describe "#within" do
-      it "sets #options[:radius] to 80 meters" do
+      it "sets radius" do
         @venues = subject.within(80)
-        expect(@venues.options[:radius]).to eq(80)
+        expect(@venues.options).to eq(radius: 80)
       end
     end
 
     describe "#top" do
-      it "sets #options[:limit] to 20" do
+      it "sets limit" do
         @venues = subject.top(20)
-        expect(@venues.options[:limit]).to eq(20)
+        expect(@venues.options).to eq(limit: 20)
       end
     end
 
     describe "#search" do
-      it "sets #options[:query] to coffee" do
+      it "sets query" do
         @venues = subject.search('coffee')
-        expect(@venues.options[:query]).to eq('coffee')
+        expect(@venues.options).to eq(query: 'coffee')
       end
     end
 
     describe "#for" do
-      it "sets #options[:intent] to checkin" do
+      it "sets intent" do
         @venues = subject.for('checkin')
-        expect(@venues.options[:intent]).to eq('checkin')
+        expect(@venues.options).to eq(intent: 'checkin')
       end
     end
 
-    it "retains options" do
-      @venues = subject.with_category(food_category).near(latlng).above(100).top(20).search('coffee').for('specials')
-      expect(@venues.options).to eq({'categoryId' => food_category, :ll => latlng, :alt => 100, :limit => 20, :query => 'coffee', :intent => 'specials'})
+    context "chain methods" do
+      before do
+        @venues = subject.with_category(food_category).near(latlng).above(100).top(20).search('coffee').for('specials')
+      end
+
+      it "retains options" do
+        expect(@venues.options).to eq({'categoryId' => food_category, :ll => latlng, :alt => 100, :limit => 20, :query => 'coffee', :intent => 'specials'})
+      end
     end
 
     after do
@@ -93,7 +98,7 @@ describe Foursquare3::Venues do
     end
   end
 
-  describe "Enumerate venues" do    
+  describe "enumerate venues" do    
     it 'random selects a venue' do
       venue = subject.sample
       expect(venue.nil?).to eq(false)
@@ -108,8 +113,8 @@ describe Foursquare3::Venues do
 
     context "with request" do
       before do
-        @venues = venues.with_category(food_category).near(latlng, 10).above(100, 1).top(20).search('restaurant').for('match')
-      end      
+        @venues = subject.with_category(food_category).near(latlng, 10).above(100, 1).top(20).search('restaurant').for('match')
+      end
 
       it "receive venues#options"do
         expect(request).to receive(:[]) do |options|
