@@ -77,7 +77,7 @@ describe Foursquare3::Venues do
       let(:returned_output) { subject.with_category(food_category).near(latlng).above(100).top(20).search('coffee').for('specials') }
 
       context :options do
-        it "retained" do
+        it "retain values" do
           expect(returned_output.options).to eq('categoryId' => food_category, :ll => latlng, :alt => 100, :limit => 20, :query => 'coffee', :intent => 'specials')
         end
       end
