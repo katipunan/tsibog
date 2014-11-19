@@ -99,13 +99,13 @@ describe Foursquare3::Venues do
   end
 
   describe "enumerate venues" do    
-    it 'random selects a venue' do
+    it 'takes random sample' do
       venue = subject.sample
       expect(venue.nil?).to eq(false)
       expect(fetched_venues.include? venue).to eq(true)
     end
 
-    it 'count venues' do
+    it 'count elements' do
       expect(subject.count).to eq(fetched_venues.count)
       expect(subject.size).to eq(fetched_venues.size)
       expect(subject.length).to eq(fetched_venues.length)
@@ -116,7 +116,7 @@ describe Foursquare3::Venues do
         @venues = subject.with_category(food_category).near(latlng, 10).above(100, 1).top(20).search('restaurant').for('match')
       end
 
-      it "receive venues#options"do
+      it "receive #options"do
         expect(request).to receive(:[]) do |options|
           expect(options['categoryId']).to eq(food_category)
           expect(options[:ll]).to eq(latlng)
