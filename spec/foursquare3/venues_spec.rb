@@ -94,7 +94,7 @@ describe Foursquare3::Venues do
     end
 
     after do
-      expect(@venues.class).to eq(subject.class)
+      expect(@venues).to be_instance_of(subject.class)
     end
   end
 
@@ -137,6 +137,6 @@ describe Foursquare3::Venues do
       after do
         expect(@venues.to_a).to eq([])
       end
-    end    
+    end
   end
 end
