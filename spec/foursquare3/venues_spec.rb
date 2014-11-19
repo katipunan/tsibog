@@ -23,7 +23,7 @@ describe Foursquare3::Venues do
       it { expect(food_venue.categories).to include('food_category_id') }
 
       context :options do
-        it { expect(food_venue.options).to eq('categoryId' => 'food_category') }
+        it { expect(food_venue.options).to eq('categoryId' => 'food_category_id') }
       end
     end
 
