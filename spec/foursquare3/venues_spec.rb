@@ -100,9 +100,7 @@ describe Foursquare3::Venues do
 
   describe "enumerate venues" do    
     it 'takes random sample' do
-      venue = subject.sample
-      expect(venue.nil?).to eq(false)
-      expect(fetched_venues.include? venue).to eq(true)
+      expect(fetched_venues).to include(subject.sample)
     end
 
     it 'count elements' do
