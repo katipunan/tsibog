@@ -77,7 +77,7 @@ describe Foursquare3::Venues do
       let(:returned_output) { subject.with_category(food_category).near(latlng).above(100).top(20).search('coffee').for('specials') }
 
       context :options do
-        it "retain values" do
+        it "retain inputs" do
           expect(returned_output.options).to eq('categoryId' => food_category, :ll => latlng, :alt => 100, :limit => 20, :query => 'coffee', :intent => 'specials')
         end
       end
@@ -87,7 +87,7 @@ describe Foursquare3::Venues do
   end
 
   describe "when enumerated" do
-    context "the request" do
+    context :request do
       subject { request }
 
       let(:venues) { Foursquare3::Venues.new(subject) }
@@ -114,15 +114,5 @@ describe Foursquare3::Venues do
         expect(@venues.to_a).to eq([])
       end
     end
-  end
-
-  describe :sample do
-    it { expect(fetched_venues).to include(subject.sample) }
-  end
-
-    it 'count elements' do
-      expect(subject.count).to eq(fetched_venues.count)
-      expect(subject.size).to eq(fetched_venues.size)
-      expect(subject.length).to eq(fetched_venues.length)
-    end  
+  end  
 end
