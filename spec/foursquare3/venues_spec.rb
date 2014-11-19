@@ -16,7 +16,7 @@ describe Foursquare3::Venues do
     expect(subject.categories).to eq([])
   end
 
-  context "options are set" do
+  context "set options" do
     describe "#with_category" do
       let(:food_venue) { subject.with_category(food_category) }
 
@@ -74,17 +74,13 @@ describe Foursquare3::Venues do
     end
 
     context "chain setter methods" do
-      before do
-        @venues = subject.with_category(food_category).near(latlng).above(100).top(20).search('coffee').for('specials')
-      end
+      let(:chained) { subject.with_category(food_category).near(latlng).above(100).top(20).search('coffee').for('specials') }
 
       it "retains options" do
-        expect(@venues.options).to eq('categoryId' => food_category, :ll => latlng, :alt => 100, :limit => 20, :query => 'coffee', :intent => 'specials')
+        expect(chained.options).to eq('categoryId' => food_category, :ll => latlng, :alt => 100, :limit => 20, :query => 'coffee', :intent => 'specials')
       end
 
-      after do
-        expect(@venues).to be_instance_of(subject.class)
-      end
+      it { expect(chained).to be_instance_of(subject.class) }
     end
   end
 
