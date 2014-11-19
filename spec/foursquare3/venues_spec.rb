@@ -112,12 +112,16 @@ describe Foursquare3::Venues do
     end
 
     context "with request" do
+      subject { request }
+
+      let(:venues) { Foursquare3::Venues.new(subject) }
+
       before do
-        @venues = subject.with_category(food_category).near(latlng, 10).above(100, 1).top(20).search('restaurant').for('match')
+        @venues = venues.with_category(food_category).near(latlng, 10).above(100, 1).top(20).search('restaurant').for('match')
       end
 
       it "receive #options"do
-        expect(request).to receive(:[]) do |options|
+        expect(subject).to receive(:[]) do |options|
           expect(options['categoryId']).to eq(food_category)
           expect(options[:ll]).to eq(latlng)
           expect(options['llAcc']).to eq(10)
