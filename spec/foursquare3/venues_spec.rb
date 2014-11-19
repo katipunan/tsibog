@@ -3,8 +3,8 @@ require 'foursquare3/venues'
 describe Foursquare3::Venues do
   subject { Foursquare3::Venues.new(request) }
 
-  let(:request) { Hash.new('venues' => fetched_venues) }
-  let(:fetched_venues) { [{id: 1, name: 'Jollibee'}, {id: 2, name: 'Chowking'}, {id: 3, name: 'Mang inasal'}] }
+  let(:request) { Hash.new('venues' => fetched_data) }
+  let(:fetched_data) { [{id: 1, name: 'Jollibee'}, {id: 2, name: 'Chowking'}, {id: 3, name: 'Mang inasal'}] }
   let(:food_category) { '4d4b7105d754a06374d81259' }
   let(:latlng) { '14.6371574,121.073077' }
 
@@ -87,17 +87,11 @@ describe Foursquare3::Venues do
   end
 
   describe "when enumerated" do
+    let(:venues) { subject.with_category(food_category).near(latlng, 10).above(100, 1).top(20).search('restaurant').for('match') }
+    
     context :request do
-      subject { request }
-
-      let(:venues) { Foursquare3::Venues.new(subject) }
-
-      before do
-        @venues = venues.with_category(food_category).near(latlng, 10).above(100, 1).top(20).search('restaurant').for('match')
-      end
-
       it "receive #options"do
-        expect(subject).to receive(:[]) do |options|
+        expect(request).to receive(:[]) do |options|
           expect(options['categoryId']).to eq(food_category)
           expect(options[:ll]).to eq(latlng)
           expect(options['llAcc']).to eq(10)
@@ -106,13 +100,13 @@ describe Foursquare3::Venues do
           expect(options[:limit]).to eq(20)
           expect(options[:query]).to eq('restaurant')
           expect(options[:intent]).to eq('match')
-          { 'venues' => [] }
+          { 'venues' => ['one'] }
         end
       end
-
-      after do
-        expect(@venues.to_a).to eq([])
-      end
     end
-  end  
+
+    after do
+      expect(venues.sample).to eq('one')
+    end
+  end
 end
