@@ -49,19 +49,27 @@ describe Foursquare3::Venues do
   end
 
   describe "#within" do
-    it { expect(subject.within(80).options).to eq(radius: 80) }
+    context :options do
+      it { expect(subject.within(80).options).to eq(radius: 80) }
+    end
   end
 
   describe "#top" do
-    it { expect(subject.top(20).options).to eq(limit: 20) }
+    context :options do
+      it { expect(subject.top(20).options).to eq(limit: 20) }
+    end
   end
 
   describe "#search" do
-    it { expect(subject.search('coffee').options).to eq(query: 'coffee') }
+    context :options do
+      it { expect(subject.search('coffee').options).to eq(query: 'coffee') }
+    end
   end
 
   describe "#for" do
-    it { expect(subject.for('checkin').options).to eq(intent: 'checkin') }
+    context :options do
+      it { expect(subject.for('checkin').options).to eq(intent: 'checkin') }
+    end
   end
 
   context "chain setter methods" do
