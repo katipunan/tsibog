@@ -16,7 +16,7 @@ describe Foursquare3::Venues do
     expect(subject.categories).to eq([])
   end
 
-  context "when options are set" do
+  context "options are set" do
     describe "#with_category" do
       let(:food_venue) { subject.with_category(food_category) }
 
