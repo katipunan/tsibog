@@ -23,7 +23,7 @@ describe Foursquare3::Venues do
       end
 
       it "sets #categories to include category" do
-        expect(@venues.categories.include? food_category).to eq(true)
+        expect(@venues.categories).to include(food_category)
       end
 
       it "sets category id" do
