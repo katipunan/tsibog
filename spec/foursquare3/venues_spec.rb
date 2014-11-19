@@ -18,12 +18,12 @@ describe Foursquare3::Venues do
 
   context "set options" do
     describe "#with_category" do
-      let(:food_venue) { subject.with_category('food_category_id') }
+      let(:food_venues) { subject.with_category('food_category_id') }
 
-      it { expect(food_venue.categories).to include('food_category_id') }
+      it { expect(food_venues.categories).to include('food_category_id') }
 
       context :options do
-        it { expect(food_venue.options).to eq('categoryId' => 'food_category_id') }
+        it { expect(food_venues.options).to eq('categoryId' => 'food_category_id') }
       end
     end
 
