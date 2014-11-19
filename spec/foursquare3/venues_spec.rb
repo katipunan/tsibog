@@ -3,7 +3,7 @@ require 'foursquare3/venues'
 describe Foursquare3::Venues do
   subject(:venues) { Foursquare3::Venues.new(request) }
 
-  let(:request) { Hash.new Hash['venues', fetched_venues] }
+  let(:request) { Hash.new('venues' => fetched_venues) }
   let(:fetched_venues) { [{id: 1, name: 'Jollibee'}, {id: 2, name: 'Chowking'}, {id: 3, name: 'Mang inasal'}] }
   let(:food_category) { '4d4b7105d754a06374d81259' }
   let(:latlng) { '14.6371574,121.073077' }
@@ -93,16 +93,26 @@ describe Foursquare3::Venues do
     end
   end
 
-  describe "Enumerate venues" do
-    before do
-      @venues = venues.with_category(food_category).near(latlng, 10).above(100, 1).top(20).search('restaurant').for('match')
+  describe "Enumerate venues" do    
+    it 'random selects a venue' do
+      venue = subject.sample
+      expect(venue.nil?).to eq(false)
+      expect(fetched_venues.include? venue).to eq(true)
+    end
+
+    it 'count venues' do
+      expect(subject.count).to eq(fetched_venues.count)
+      expect(subject.size).to eq(fetched_venues.size)
+      expect(subject.length).to eq(fetched_venues.length)
     end
 
     context "with request" do
-      subject { request }
+      before do
+        @venues = venues.with_category(food_category).near(latlng, 10).above(100, 1).top(20).search('restaurant').for('match')
+      end      
 
       it "receive venues#options"do
-        expect(subject).to receive(:[]) do |options|
+        expect(request).to receive(:[]) do |options|
           expect(options['categoryId']).to eq(food_category)
           expect(options[:ll]).to eq(latlng)
           expect(options['llAcc']).to eq(10)
@@ -118,18 +128,6 @@ describe Foursquare3::Venues do
       after do
         expect(@venues.to_a).to eq([])
       end
-    end
-    
-    it 'random selects venue' do
-      venue = @venues.sample
-      expect(venue.nil?).to eq(false)
-      expect(fetched_venues.include? venue).to eq(true)
-    end
-
-    it 'count venues' do
-      expect(@venues.count).to eq(fetched_venues.count)
-      expect(@venues.size).to eq(fetched_venues.size)
-      expect(@venues.length).to eq(fetched_venues.length)
-    end
+    end    
   end
 end
