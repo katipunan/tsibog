@@ -72,27 +72,21 @@ describe Foursquare3::Venues do
     end
   end
 
-  context "chain setter methods" do
-    let(:chained) { subject.with_category(food_category).near(latlng).above(100).top(20).search('coffee').for('specials') }
+  describe "when methods chained" do
+    context "returned output" do
+      let(:returned_output) { subject.with_category(food_category).near(latlng).above(100).top(20).search('coffee').for('specials') }
 
-    it "retains options" do
-      expect(chained.options).to eq('categoryId' => food_category, :ll => latlng, :alt => 100, :limit => 20, :query => 'coffee', :intent => 'specials')
+      context :options do
+        it "retained" do
+          expect(returned_output.options).to eq('categoryId' => food_category, :ll => latlng, :alt => 100, :limit => 20, :query => 'coffee', :intent => 'specials')
+        end
+      end
+
+      it { expect(returned_output).to be_instance_of(subject.class) }
     end
-
-    it { expect(chained).to be_instance_of(subject.class) }
   end
 
-  describe "when venues are enumerated" do
-    it 'takes random sample' do
-      expect(fetched_venues).to include(subject.sample)
-    end
-
-    it 'count elements' do
-      expect(subject.count).to eq(fetched_venues.count)
-      expect(subject.size).to eq(fetched_venues.size)
-      expect(subject.length).to eq(fetched_venues.length)
-    end
-
+  describe "when enumerated" do
     context "the request" do
       subject { request }
 
@@ -121,4 +115,14 @@ describe Foursquare3::Venues do
       end
     end
   end
+
+  describe :sample do
+    it { expect(fetched_venues).to include(subject.sample) }
+  end
+
+    it 'count elements' do
+      expect(subject.count).to eq(fetched_venues.count)
+      expect(subject.size).to eq(fetched_venues.size)
+      expect(subject.length).to eq(fetched_venues.length)
+    end  
 end
