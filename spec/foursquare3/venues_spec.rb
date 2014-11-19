@@ -32,7 +32,7 @@ describe Foursquare3::Venues do
     end
 
     describe "#near" do
-      it "sets geolocation without accuracy" do
+      it "sets geolocation" do
         @venues = subject.near(latlng)
         expect(@venues.options).to eq(ll: latlng)
       end
@@ -44,7 +44,7 @@ describe Foursquare3::Venues do
     end
 
     describe "#above" do
-      it "sets altitude without accuracy" do
+      it "sets altitude" do
         @venues = subject.above(100)
         expect(@venues.options).to eq(alt: 100)
       end
