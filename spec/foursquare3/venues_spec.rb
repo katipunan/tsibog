@@ -99,7 +99,7 @@ describe Foursquare3::Venues do
       expect(subject.length).to eq(fetched_venues.length)
     end
 
-    context "with the request" do
+    context "the request" do
       subject { request }
 
       let(:venues) { Foursquare3::Venues.new(subject) }
