@@ -11,8 +11,8 @@ class Tsibog::CLI
     end
   end
 
-  def initialize coordinates = COORDINATES_OF['47East.ph']
-    restaurant = Tsibog[ Tsibog.food_venues.near(coordinates).top(20).sample.id ]
+  def initialize here = COORDINATES_OF['47East.ph']
+    restaurant = Tsibog[ Tsibog.food_venues.near(here).top(20).sample.id ]
     print_details restaurant
   end
 end
