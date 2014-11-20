@@ -1,6 +1,6 @@
 require 'forwardable'
 
-module Foursquare3
+module Tsibog
   class Venues
     def initialize(request)
       @request = request

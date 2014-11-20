@@ -1,7 +1,7 @@
-require 'foursquare3/venues'
+require 'tsibog/venues'
 
-describe Foursquare3::Venues do
-  subject { Foursquare3::Venues.new(request) }
+describe Tsibog::Venues do
+  subject { Tsibog::Venues.new(request) }
 
   let(:request) { Hash.new('venues' => fetched_data) }
   let(:fetched_data) { [{id: 1, name: 'Jollibee'}, {id: 2, name: 'Chowking'}, {id: 3, name: 'Mang inasal'}] }
