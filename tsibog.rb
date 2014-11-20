@@ -14,7 +14,7 @@ module Tsibog
     Venues.new(CLIENT.method :search_venues).with_category(FOOD).within(TEN_MINUTES_AWAY)
   end
 
-  def self.food_place id
+  def self.[](id)
     FoodPlace.new CLIENT.venue id
   end
 
@@ -77,7 +77,7 @@ class Tsibog::Application
   end
 
   def initialize coordinates = COORDINATES_OF['47East.ph']
-    restaurant = Tsibog.food_place Tsibog.food_venues.near(coordinates).top(20).sample.id
+    restaurant = Tsibog[ Tsibog.food_venues.near(coordinates).top(20).sample.id ]
     print_details restaurant
   end
 end
