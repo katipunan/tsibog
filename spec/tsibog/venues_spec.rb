@@ -16,6 +16,10 @@ describe Tsibog::Venues do
     context :categories do
       it { expect(subject.categories).to eq([]) }
     end
+
+    context "when argument doesn't support []" do
+      it { expect{ Tsibog::Venues.new(nil) }.to raise_error(ArgumentError) }
+    end
   end
   
   describe "#with_category" do

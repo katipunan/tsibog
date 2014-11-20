@@ -3,6 +3,7 @@ require 'forwardable'
 module Tsibog
   class Venues
     def initialize(request)
+      raise ArgumentError, ":request must respond to []" unless request.respond_to?(:[])
       @request = request
     end
 
