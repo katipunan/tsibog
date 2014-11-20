@@ -1,6 +1,6 @@
 require_relative 'lib/tsibog'
 
-class Tsibog::Application
+class Tsibog::CLI
   COORDINATES_OF = { '47East.ph' => '14.6371574,121.073077' }
 
   def print_details restaurant
@@ -17,4 +17,4 @@ class Tsibog::Application
   end
 end
 
-app = Tsibog::Application.new
+app = Tsibog::CLI.new
