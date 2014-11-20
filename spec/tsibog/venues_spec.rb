@@ -8,12 +8,14 @@ describe Tsibog::Venues do
   let(:food_category) { '4d4b7105d754a06374d81259' }
   let(:latlng) { '14.6371574,121.073077' }
 
-  context :options do
-    it { expect(subject.options).to eq({}) }
-  end
+  describe "#initialize" do
+    context :options do
+      it { expect(subject.options).to eq({}) }
+    end
 
-  context :categories do
-    it { expect(subject.categories).to eq([]) }
+    context :categories do
+      it { expect(subject.categories).to eq([]) }
+    end
   end
   
   describe "#with_category" do
