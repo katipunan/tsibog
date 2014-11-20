@@ -93,13 +93,13 @@ describe Tsibog::Venues do
       it "receive #options"do
         expect(request).to receive(:[]) do |options|
           expect(options).to eq(venues.options)
-          { 'venues' => ['one'] }
+          { 'venues' => ['something'] }
         end
       end
     end
 
     after do
-      expect(venues.sample).to eq('one')
+      expect(venues.sample).to eq('something')
     end
   end
 end
