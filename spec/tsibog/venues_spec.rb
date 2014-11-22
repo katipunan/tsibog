@@ -5,6 +5,7 @@ describe Tsibog::Venues do
 
   let(:request) { Hash.new('venues' => fetched_data) }
   let(:fetched_data) { [{id: 1, name: 'Jollibee'}, {id: 2, name: 'Chowking'}, {id: 3, name: 'Mang inasal'}] }
+  
   FOOD = '4d4b7105d754a06374d81259'
   HERE = '14.6371574,121.073077'
 
@@ -70,7 +71,7 @@ describe Tsibog::Venues do
 
   describe "#search" do
     context :options do
-      it { expect(subject.search('coffee').options).to eq(query: 'coffee') }
+      it { expect(subject.search('pizza').options).to eq(query: 'pizza') }
     end
   end
 
@@ -95,7 +96,7 @@ describe Tsibog::Venues do
   end
 
   describe "when enumerated" do
-    let(:venues) { subject.with_category(FOOD).near(HERE, 10).above(100, 1).top(20).search('restaurant').for('match') }
+    let(:venues) { subject.within(800).near(HERE, 10).above(100, 1).top(20).search('restaurant').for('match') }
     
     context :request do
       it "receive #options" do
