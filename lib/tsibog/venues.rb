@@ -20,11 +20,11 @@ module Tsibog
     end
 
     def near(latlng, accuracy_in_meters = nil)
-      chain blank_hash_or('llAcc', accuracy_in_meters).merge(ll: latlng)
+      chain empty_or('llAcc', accuracy_in_meters).merge(ll: latlng)
     end
 
     def above(meters, accuracy_in_meters = nil) # altitude
-      chain blank_hash_or('altAcc', accuracy_in_meters).merge(alt: meters)
+      chain empty_or('altAcc', accuracy_in_meters).merge(alt: meters)
     end
 
     def within(meters)
@@ -60,7 +60,7 @@ module Tsibog
       duplicate
     end
 
-    def blank_hash_or(key, value)
+    def empty_or(key, value)
       value.nil? ? {} : {key => value}
     end
   end
