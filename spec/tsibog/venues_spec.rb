@@ -99,14 +99,12 @@ describe Tsibog::Venues do
     
     context :request do
       it "receive #options" do
-        expect(request).to receive(:[]).with(venues.options) do
-          { 'venues' => ['something'] }
-        end
+        expect(request).to receive(:[]).with(venues.options).and_return('venues' => ['somewhere'])
       end
     end
 
     after do
-      expect(venues.sample).to eq('something')
+      expect(venues.sample).to eq('somewhere')
     end
   end
 end
