@@ -5,8 +5,8 @@ describe Tsibog::Venues do
 
   let(:request) { Hash.new('venues' => fetched_data) }
   let(:fetched_data) { [{id: 1, name: 'Jollibee'}, {id: 2, name: 'Chowking'}, {id: 3, name: 'Mang inasal'}] }
-  let(:food_category) { '4d4b7105d754a06374d81259' }
-  let(:latlng) { '14.6371574,121.073077' }
+  FOOD = '4d4b7105d754a06374d81259'
+  HERE = '14.6371574,121.073077'
 
   describe "#initialize" do
     context :options do
@@ -25,23 +25,23 @@ describe Tsibog::Venues do
   end
   
   describe "#with_category" do
-    let(:food_venues) { subject.with_category(food_category) }
+    let(:food_venues) { subject.with_category(FOOD) }
 
     context :categories do
-      it { expect(food_venues.categories).to include(food_category) }
+      it { expect(food_venues.categories).to include(FOOD) }
     end
 
     context :options do
-      it { expect(food_venues.options).to eq('categoryId' => food_category) }
+      it { expect(food_venues.options).to eq('categoryId' => FOOD) }
     end
   end
 
   describe "#near" do
     context :options do
-      it { expect(subject.near(latlng).options).to eq(ll: latlng) }
+      it { expect(subject.near(HERE).options).to eq(ll: HERE) }
 
       describe "with accuracy in meters" do
-        it { expect(subject.near(latlng, 10).options).to eq(:ll => latlng, 'llAcc' => 10) }
+        it { expect(subject.near(HERE, 10).options).to eq(:ll => HERE, 'llAcc' => 10) }
       end
     end
   end
@@ -82,11 +82,11 @@ describe Tsibog::Venues do
 
   describe "when methods chained" do
     context "returned output" do
-      let(:returned_output) { subject.with_category(food_category).near(latlng).above(100).top(20).search('coffee').for('specials') }
+      let(:returned_output) { subject.with_category(FOOD).near(HERE).above(100).top(20).search('coffee').for('specials') }
 
       context :options do
         it "retain inputs" do
-          expect(returned_output.options).to eq('categoryId' => food_category, :ll => latlng, :alt => 100, :limit => 20, :query => 'coffee', :intent => 'specials')
+          expect(returned_output.options).to eq('categoryId' => FOOD, :ll => HERE, :alt => 100, :limit => 20, :query => 'coffee', :intent => 'specials')
         end
       end
 
@@ -95,7 +95,7 @@ describe Tsibog::Venues do
   end
 
   describe "when enumerated" do
-    let(:venues) { subject.with_category(food_category).near(latlng, 10).above(100, 1).top(20).search('restaurant').for('match') }
+    let(:venues) { subject.with_category(FOOD).near(HERE, 10).above(100, 1).top(20).search('restaurant').for('match') }
     
     context :request do
       it "receive #options" do
