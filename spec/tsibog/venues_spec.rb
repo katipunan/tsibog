@@ -10,15 +10,17 @@ describe Tsibog::Venues do
 
   describe "#initialize" do
     context :options do
-      it { expect(subject.options).to eq({}) }
+      it { expect(subject.options).to be_empty }
     end
 
     context :categories do
-      it { expect(subject.categories).to eq([]) }
+      it { expect(subject.categories).to be_empty }
     end
 
     context "when argument doesn't support []" do
-      it { expect{ Tsibog::Venues.new(nil) }.to raise_error(ArgumentError) }
+      let(:request) { nil }
+
+      it { expect{subject}.to raise_error(ArgumentError) }
     end
   end
   
@@ -96,9 +98,8 @@ describe Tsibog::Venues do
     let(:venues) { subject.with_category(food_category).near(latlng, 10).above(100, 1).top(20).search('restaurant').for('match') }
     
     context :request do
-      it "receive #options"do
-        expect(request).to receive(:[]) do |options|
-          expect(options).to eq(venues.options)
+      it "receive #options" do
+        expect(request).to receive(:[]).with(venues.options) do
           { 'venues' => ['something'] }
         end
       end
